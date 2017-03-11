@@ -333,6 +333,14 @@ describe('request', () => {
     expect(request).toHaveProperty('headers.x-custom-header', 'socustom')
   })
 
+  test('no request body is returned by default', () => {
+    const request = client.request({
+      url: 'https://example.com'
+    })
+
+    expect(request.data).toBeUndefined()
+  })
+
   test('request body is serialized JSON', () => {
     const data = {foo: 'bar'}
     const request = client.request({
