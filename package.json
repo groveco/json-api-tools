@@ -8,6 +8,10 @@
     "lint": "eslint ./"
   },
   "author": "Noah H. Smith",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/groveco/json-api-tools.git"
+  },
   "license": "MIT",
   "devDependencies": {
     "babel-preset-es2015": "^6.22.0",
