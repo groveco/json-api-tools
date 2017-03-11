@@ -4,5 +4,7 @@ machine:
 
 test:
   override:
-    - npm run lint
-    - npm test -- --coverage --coverageDirectory "$CIRCLE_ARTIFACTS/coverage"
+    - "npm run lint"
+    - "npm test -- --coverageDirectory $CIRCLE_ARTIFACTS/coverage":
+        environment:
+          JEST_JUNIT_OUTPUT: $CIRCLE_TEST_REPORTS/junit/test-results.xml
