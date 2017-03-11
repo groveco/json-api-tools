@@ -3,5 +3,6 @@ machine:
     version: 6.5.0
 
 test:
-  pre:
+  override:
     - npm run lint
+    - npm test -- --coverage --coverageDirectory "$CIRCLE_ARTIFACTS/coverage"
