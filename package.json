@@ -1,0 +1,21 @@
+{
+  "name": "json-api-tools",
+  "version": "0.0.1",
+  "description": "A suite of tools for working with {json:api} resources",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest ./test.js",
+    "lint": "eslint ./"
+  },
+  "author": "Noah H. Smith",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.22.0",
+    "eslint": "^3.17.1",
+    "eslint-config-standard": "^7.0.1",
+    "eslint-plugin-jest": "^19.0.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^2.1.1",
+    "jest": "^19.0.2"
+  }
+}

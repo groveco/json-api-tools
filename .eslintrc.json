@@ -1,0 +1,10 @@
+{
+  "extends": "standard",
+  "plugins": [
+    "promise",
+    "jest"
+  ],
+  "env": {
+    "jest/globals": true
+  }
+}
