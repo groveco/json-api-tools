@@ -1,8 +1,12 @@
 import {format} from 'url'
 import path from 'path'
 
+export function hasAttribute (resource, attr) {
+  return resource.hasOwnProperty('attributes') && resource.attributes.hasOwnProperty(attr)
+}
+
 export function getAttribute (resource, attr, default_) {
-  if (resource.attributes && resource.attributes.hasOwnProperty(attr)) {
+  if (hasAttribute(resource, attr)) {
     return resource.attributes[attr]
   } else if (default_) {
     return default_
@@ -11,8 +15,12 @@ export function getAttribute (resource, attr, default_) {
   }
 }
 
+export function hasLink (resource, member) {
+  return resource.hasOwnProperty('links') && resource.links.hasOwnProperty(member)
+}
+
 export function getLink (resource, member, default_) {
-  if (resource.hasOwnProperty('links') && resource.links.hasOwnProperty(member)) {
+  if (hasLink(resource, member)) {
     return resource.links[member]
   } else if (default_) {
     return default_
@@ -21,8 +29,12 @@ export function getLink (resource, member, default_) {
   }
 }
 
+export function hasRelationship (resource, rel) {
+  return resource.hasOwnProperty('relationships') && resource.relationships.hasOwnProperty(rel)
+}
+
 export function getRelationship (resource, rel) {
-  if (resource.relationships && resource.relationships.hasOwnProperty(rel)) {
+  if (hasRelationship(resource, rel)) {
     return resource.relationships[rel]
   } else {
     throw new Error(`Relationship field, ${rel}, is not defined on this resource.`)

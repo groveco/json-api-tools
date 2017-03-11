@@ -7,6 +7,39 @@ const client = new tools.Client({
   }
 })
 
+describe('hasAttribute', () => {
+  test('returns true if attribute exists', () => {
+    const resource = {
+      type: 'test-resource',
+      id: '0',
+      attributes: {
+        foo: 'bar'
+      }
+    }
+
+    expect(tools.hasAttribute(resource, 'foo')).toBeTruthy()
+  })
+
+  test('returns false if attribute does not exists', () => {
+    const resource = {
+      type: 'test-resource',
+      id: '0',
+      attributes: {}
+    }
+
+    expect(tools.hasAttribute(resource, 'foo')).toBeFalsy()
+  })
+
+  test('returns false if attributes does not exist', () => {
+    const resource = {
+      type: 'test-resource',
+      id: '0'
+    }
+
+    expect(tools.hasAttribute(resource, 'foo')).toBeFalsy()
+  })
+})
+
 describe('getAttribute', () => {
   test('returns a field from a resource\'s attributes', () => {
     const resource = {
@@ -75,6 +108,39 @@ describe('getAttribute', () => {
   })
 })
 
+describe('hasLink', () => {
+  test('returns true if link exists', () => {
+    const resource = {
+      type: 'test-resource',
+      id: '0',
+      links: {
+        zip: 'zap'
+      }
+    }
+
+    expect(tools.hasLink(resource, 'zip')).toBeTruthy()
+  })
+
+  test('returns false if link does not exists', () => {
+    const resource = {
+      type: 'test-resource',
+      id: '0',
+      links: {}
+    }
+
+    expect(tools.hasLink(resource, 'zip')).toBeFalsy()
+  })
+
+  test('returns false if links does not exist', () => {
+    const resource = {
+      type: 'test-resource',
+      id: '0'
+    }
+
+    expect(tools.hasLink(resource, 'zip')).toBeFalsy()
+  })
+})
+
 describe('getLink', () => {
   test('returns a member from a resource\'s links', () => {
     const resource = {
@@ -140,6 +206,39 @@ describe('getLink', () => {
 
       tools.getLink(resource, 'buz')
     }).toThrow()
+  })
+})
+
+describe('hasRelationship', () => {
+  test('returns true if relationship exists', () => {
+    const resource = {
+      type: 'test-resource',
+      id: '0',
+      relationships: {
+        foo: {}
+      }
+    }
+
+    expect(tools.hasRelationship(resource, 'foo')).toBeTruthy()
+  })
+
+  test('returns false if relationship does not exists', () => {
+    const resource = {
+      type: 'test-resource',
+      id: '0',
+      relationships: {}
+    }
+
+    expect(tools.hasRelationship(resource, 'zip')).toBeFalsy()
+  })
+
+  test('returns false if relationships does not exist', () => {
+    const resource = {
+      type: 'test-resource',
+      id: '0'
+    }
+
+    expect(tools.hasRelationship(resource, 'zip')).toBeFalsy()
   })
 })
 
