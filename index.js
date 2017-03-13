@@ -1,4 +1,4 @@
-import {format} from 'url'
+import {format, resolve} from 'url'
 import path from 'path'
 
 export function hasAttribute (resource, attr) {
@@ -44,6 +44,7 @@ export function getRelationship (resource, rel) {
 export class Client {
   constructor (options = {}) {
     this.adapter = options.adapter
+    this.urlPrefix = options.urlPrefix || ''
   }
 
   request ({method = 'GET', url, data, headers = {}}) {
@@ -82,7 +83,7 @@ export class Client {
 
     const method = 'GET'
     const url = format({
-      pathname: getLink(resource, 'self', path.join('/', type, id, '/')),
+      pathname: getLink(resource, 'self', resolve(this.urlPrefix, path.join('/', type, id, '/'))),
       query
     })
 
@@ -94,7 +95,7 @@ export class Client {
 
     const method = 'GET'
     const url = format({
-      pathname: path.join('/', type, '/'),
+      pathname: resolve(this.urlPrefix, path.join('/', type, '/')),
       query
     })
 
@@ -107,7 +108,7 @@ export class Client {
 
     const method = 'PATCH'
     const url = format({
-      pathname: getLink(resource, 'self', path.join('/', type, id, '/')),
+      pathname: getLink(resource, 'self', resolve(this.urlPrefix, path.join('/', type, id, '/'))),
       query
     })
     const data = {data: resource}
@@ -121,7 +122,7 @@ export class Client {
 
     const method = 'POST'
     const url = format({
-      pathname: path.join('/', type, '/'),
+      pathname: resolve(this.urlPrefix, path.join('/', type, '/')),
       query
     })
     const data = {data: resource}

@@ -1,12 +1,6 @@
 import * as tools from './index'
 import {parse} from 'url'
 
-const client = new tools.Client({
-  adapter (stuff) {
-    return stuff
-  }
-})
-
 describe('hasAttribute', () => {
   test('returns true if attribute exists', () => {
     const resource = {
@@ -283,6 +277,16 @@ describe('getRelationship', () => {
 })
 
 describe('request', () => {
+  let client
+
+  beforeEach(() => {
+    client = new tools.Client({
+      adapter (stuff) {
+        return stuff
+      }
+    })
+  })
+
   test('accepts a request method', () => {
     const request = client.request({
       method: 'HEAD',
@@ -353,6 +357,16 @@ describe('request', () => {
 })
 
 describe('fetchRelatedResource', () => {
+  let client
+
+  beforeEach(() => {
+    client = new tools.Client({
+      adapter (stuff) {
+        return stuff
+      }
+    })
+  })
+
   test('request url is relationship\'s related link', () => {
     const resource = {
       type: 'test-resource',
@@ -409,6 +423,16 @@ describe('fetchRelatedResource', () => {
 })
 
 describe('fetchResource', () => {
+  let client
+
+  beforeEach(() => {
+    client = new tools.Client({
+      adapter (stuff) {
+        return stuff
+      }
+    })
+  })
+
   test('request url is resource\'s self link', () => {
     const resource = {
       type: 'test-resource',
@@ -432,6 +456,19 @@ describe('fetchResource', () => {
     const request = client.fetchResource(resource)
 
     expect(request).toHaveProperty('url', '/test-resource/0/')
+  })
+
+  test('request url is prefixed when built', () => {
+    client.urlPrefix = 'https://example.com'
+
+    const resource = {
+      type: 'test-resource',
+      id: '0'
+    }
+
+    const request = client.fetchResource(resource)
+
+    expect(request).toHaveProperty('url', 'https://example.com/test-resource/0/')
   })
 
   test('request method is GET', () => {
@@ -461,6 +498,16 @@ describe('fetchResource', () => {
 })
 
 describe('findResources', () => {
+  let client
+
+  beforeEach(() => {
+    client = new tools.Client({
+      adapter (stuff) {
+        return stuff
+      }
+    })
+  })
+
   test('request url is built from type', () => {
     const request = client.findResources('test-resource')
 
@@ -481,6 +528,16 @@ describe('findResources', () => {
 })
 
 describe('updateResource', () => {
+  let client
+
+  beforeEach(() => {
+    client = new tools.Client({
+      adapter (stuff) {
+        return stuff
+      }
+    })
+  })
+
   test('request url is resource\'s self link', () => {
     const resource = {
       type: 'test-resource',
@@ -504,6 +561,19 @@ describe('updateResource', () => {
     const request = client.updateResource(resource)
 
     expect(request).toHaveProperty('url', '/test-resource/0/')
+  })
+
+  test('request url is prefixed when built', () => {
+    client.urlPrefix = 'https://example.com'
+
+    const resource = {
+      type: 'test-resource',
+      id: '0'
+    }
+
+    const request = client.fetchResource(resource)
+
+    expect(request).toHaveProperty('url', 'https://example.com/test-resource/0/')
   })
 
   test('request method is PATCH', () => {
@@ -530,7 +600,17 @@ describe('updateResource', () => {
 })
 
 describe('createResource', () => {
-  test('request url is built from type and id', () => {
+  let client
+
+  beforeEach(() => {
+    client = new tools.Client({
+      adapter (stuff) {
+        return stuff
+      }
+    })
+  })
+
+  test('request url is built from type', () => {
     const resource = {
       type: 'test-resource'
     }
@@ -538,6 +618,19 @@ describe('createResource', () => {
     const request = client.createResource(resource)
 
     expect(request).toHaveProperty('url', '/test-resource/')
+  })
+
+  test('request url is prefixed when built', () => {
+    client.urlPrefix = 'https://example.com'
+
+    const resource = {
+      type: 'test-resource',
+      id: '0'
+    }
+
+    const request = client.fetchResource(resource)
+
+    expect(request).toHaveProperty('url', 'https://example.com/test-resource/')
   })
 
   test('request method is POST', () => {
