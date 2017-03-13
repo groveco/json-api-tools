@@ -8,3 +8,9 @@ test:
     - "npm test -- --coverageDirectory $CIRCLE_ARTIFACTS/coverage":
         environment:
           JEST_JUNIT_OUTPUT: $CIRCLE_TEST_REPORTS/junit/test-results.xml
+
+deployment:
+  npm:
+    tag: /v[0-9]+(\.[0-9]+)*/
+    commands:
+      - npm publish
