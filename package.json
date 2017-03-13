@@ -1,6 +1,6 @@
 {
   "name": "json-api-tools",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A suite of tools for working with {json:api} resources",
   "main": "index.js",
   "scripts": {
