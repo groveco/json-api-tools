@@ -43,8 +43,17 @@ export function getRelationship (resource, rel) {
 
 export class Client {
   constructor (options = {}) {
-    this.adapter = options.adapter
-    this.urlPrefix = options.urlPrefix || ''
+    if (options.hasOwnProperty('adapter')) {
+      this.adapter = options.adapter
+    } else {
+      throw new Error('You must provide a network adapter for the client!')
+    }
+
+    this.urlPrefix = options.urlPrefix || '/'
+  }
+
+  buildLinkFor (type, id = '') {
+    return resolve(this.urlPrefix, path.join(type, id, '/'))
   }
 
   request ({method = 'GET', url, data, headers = {}}) {
@@ -83,7 +92,7 @@ export class Client {
 
     const method = 'GET'
     const url = format({
-      pathname: getLink(resource, 'self', resolve(this.urlPrefix, path.join('/', type, id, '/'))),
+      pathname: getLink(resource, 'self', this.buildLinkFor(type, id)),
       query
     })
 
@@ -95,7 +104,7 @@ export class Client {
 
     const method = 'GET'
     const url = format({
-      pathname: resolve(this.urlPrefix, path.join('/', type, '/')),
+      pathname: this.buildLinkFor(type),
       query
     })
 
@@ -108,7 +117,7 @@ export class Client {
 
     const method = 'PATCH'
     const url = format({
-      pathname: getLink(resource, 'self', resolve(this.urlPrefix, path.join('/', type, id, '/'))),
+      pathname: getLink(resource, 'self', this.buildLinkFor(type, id)),
       query
     })
     const data = {data: resource}
@@ -122,7 +131,7 @@ export class Client {
 
     const method = 'POST'
     const url = format({
-      pathname: resolve(this.urlPrefix, path.join('/', type, '/')),
+      pathname: this.buildLinkFor(type),
       query
     })
     const data = {data: resource}

@@ -276,6 +276,14 @@ describe('getRelationship', () => {
   })
 })
 
+describe('Client', () => {
+  test('requires a network adapter', () => {
+    expect(() => {
+      return new tools.Client()
+    }).toThrow()
+  })
+})
+
 describe('request', () => {
   let client
 
@@ -353,6 +361,72 @@ describe('request', () => {
     })
 
     expect(request).toHaveProperty('data', JSON.stringify({foo: 'bar'}))
+  })
+})
+
+describe('buildLinkFor', () => {
+  let client
+
+  beforeEach(() => {
+    client = new tools.Client({
+      adapter (stuff) {
+        return stuff
+      }
+    })
+  })
+
+  test('returns an absolute link for type and id ', () => {
+    const url = client.buildLinkFor('foo', 'bar')
+
+    expect(url).toBe('/foo/bar/')
+  })
+
+  test('returns an absolute link for type and no id', () => {
+    const url = client.buildLinkFor('foo')
+
+    expect(url).toBe('/foo/')
+  })
+
+  test('returns a relative link for type and id ', () => {
+    client.urlPrefix = ''
+    const url = client.buildLinkFor('foo', 'bar')
+
+    expect(url).toBe('foo/bar/')
+  })
+
+  test('returns a relative link for type and no id ', () => {
+    client.urlPrefix = ''
+    const url = client.buildLinkFor('foo')
+
+    expect(url).toBe('foo/')
+  })
+
+  test('returns a scheme://host prefixed link for type and id ', () => {
+    client.urlPrefix = 'https://example.com'
+    const url = client.buildLinkFor('foo', 'bar')
+
+    expect(url).toBe('https://example.com/foo/bar/')
+  })
+
+  test('returns a scheme://host prefixed link for type and no id ', () => {
+    client.urlPrefix = 'https://example.com'
+    const url = client.buildLinkFor('foo')
+
+    expect(url).toBe('https://example.com/foo/')
+  })
+
+  test('returns a scheme://host/path prefixed link for type and id ', () => {
+    client.urlPrefix = 'https://example.com/api/'
+    const url = client.buildLinkFor('foo', 'bar')
+
+    expect(url).toBe('https://example.com/api/foo/bar/')
+  })
+
+  test('returns a scheme://host/path prefixed link for type and no id ', () => {
+    client.urlPrefix = 'https://example.com/api/'
+    const url = client.buildLinkFor('foo')
+
+    expect(url).toBe('https://example.com/api/foo/')
   })
 })
 
