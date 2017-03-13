@@ -26,5 +26,10 @@
     "collectCoverage": true,
     "coverageDirectory": "./coverage",
     "testResultsProcessor": "jest-junit"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
   }
 }
