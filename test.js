@@ -571,7 +571,7 @@ describe('updateResource', () => {
       id: '0'
     }
 
-    const request = client.fetchResource(resource)
+    const request = client.updateResource(resource)
 
     expect(request).toHaveProperty('url', 'https://example.com/test-resource/0/')
   })
@@ -624,11 +624,10 @@ describe('createResource', () => {
     client.urlPrefix = 'https://example.com'
 
     const resource = {
-      type: 'test-resource',
-      id: '0'
+      type: 'test-resource'
     }
 
-    const request = client.fetchResource(resource)
+    const request = client.createResource(resource)
 
     expect(request).toHaveProperty('url', 'https://example.com/test-resource/')
   })
