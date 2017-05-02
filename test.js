@@ -63,6 +63,26 @@ describe('getAttribute', () => {
     expect(attr).toBe(default_)
   })
 
+  test('returns a falsy default argument when field is not defined', () => {
+    const resource = {
+      type: 'test-resource',
+      id: '0',
+      attributes: {}
+    }
+
+    const defaults = [
+      0,
+      false,
+      '',
+      null
+    ]
+
+    defaults.forEach((default_) => {
+      const attr = tools.getAttribute(resource, 'foo', default_)
+      expect(attr).toBe(default_)
+    })
+  })
+
   test('returns default argument when attributes is not defined', () => {
     // using an object as default for it's strong reference
     const default_ = {}

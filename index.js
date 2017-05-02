@@ -5,10 +5,11 @@ export function hasAttribute (resource, attr) {
   return resource.hasOwnProperty('attributes') && resource.attributes.hasOwnProperty(attr)
 }
 
-export function getAttribute (resource, attr, default_) {
+const __d__ = {}
+export function getAttribute (resource, attr, default_ = __d__) {
   if (hasAttribute(resource, attr)) {
     return resource.attributes[attr]
-  } else if (default_) {
+  } else if (default_ !== __d__) {
     return default_
   } else {
     throw new Error(`Attribute field, ${attr}, is not defined on this resource.`)
