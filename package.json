@@ -1,9 +1,10 @@
 {
   "name": "json-api-tools",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "A suite of tools for working with {json:api} resources",
   "main": "index.js",
   "scripts": {
+    "prepublishOnly": "mkdir ./dist && cp ./package.json ./dist && babel ./index.js > ./dist/index.js",
     "test": "jest ./test.js",
     "lint": "eslint ./"
   },
