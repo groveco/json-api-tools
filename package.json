@@ -2,11 +2,11 @@
   "name": "json-api-tools",
   "version": "0.0.13",
   "description": "A suite of tools for working with {json:api} resources",
-  "main": "index.js",
+  "main": "./index.js",
   "scripts": {
-    "prepublishOnly": "mkdir -p ./dist && cp ./package.json ./dist && babel ./index.js > ./dist/index.js",
-    "test": "jest ./test.js",
-    "lint": "eslint ./"
+    "prepack": "babel ./src/index.js > ./index.js",
+    "test": "jest ./src/test.js",
+    "lint": "eslint ./src/index.js"
   },
   "author": "Noah H. Smith",
   "repository": {
@@ -15,6 +15,8 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
     "babel-jest": "^19.0.0",
     "babel-preset-es2015": "^6.22.0",
     "eslint": "^3.19.0",

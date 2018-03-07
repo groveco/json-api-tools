@@ -1,0 +1,113 @@
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:9.7.1
+
+version: 2
+
+jobs:
+  checkout-code:
+    <<: *defaults
+    steps:
+      - checkout
+      - save_cache:
+          key: v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+          paths:
+            - ~/repo
+
+  install-deps:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          keys:
+            - v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+
+      - restore_cache:
+          keys:
+            - v3-yarn-cache
+
+      - restore_cache:
+          keys:
+            - v3-npm-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+
+      - run: yarn install
+
+      - save_cache:
+          paths:
+            - ~/.cache/yarn/v1
+          key: v3-yarn-cache
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v3-npm-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+
+  lint:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          keys:
+            - v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+
+      - restore_cache:
+          keys:
+            - v3-npm-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+
+      - run: yarn lint
+
+  test:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          keys:
+            - v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+
+      - restore_cache:
+          keys:
+            - v3-npm-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+
+      - run: yarn test
+
+  publish:
+    <<: *defaults
+    steps:
+      - restore_cache:
+          keys:
+            - v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+
+      - restore_cache:
+          keys:
+            - v3-npm-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+
+      - run:
+          name: Authenticating NPM
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+
+      - run:
+          name: Publish NPM module
+          command: npm publish
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - checkout-code
+      - install-deps:
+          requires:
+            - checkout-code
+
+      - lint:
+          requires:
+            - install-deps
+
+      - test:
+          requires:
+            - install-deps
+
+      - publish:
+          requires:
+            - lint
+            - test
+          filters:
+            tags:
+              only: /v[0-9]+(\.[0-9]+)*/

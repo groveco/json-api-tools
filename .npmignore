@@ -1,0 +1,9 @@
+.circleci
+coverage
+dist
+node_modules
+src
+junit.xml
+.babelrc
+.eslintrc.json
+.gitignore
