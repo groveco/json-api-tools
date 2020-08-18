@@ -3,8 +3,5 @@
   "plugins": [
     "promise",
     "jest"
-  ],
-  "env": {
-    "jest/globals": true
-  }
+  ]
 }
