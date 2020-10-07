@@ -1,7 +1,9 @@
-import {format, resolve} from 'url'
+/* eslint-disable-next-line */
+import { format, resolve } from 'url'
 import path from 'path'
 
 export function hasAttribute (resource, attr) {
+  /* eslint-disable-next-line */
   return resource.hasOwnProperty('attributes') && resource.attributes.hasOwnProperty(attr)
 }
 
@@ -17,6 +19,7 @@ export function getAttribute (resource, attr, default_ = __d__) {
 }
 
 export function hasLink (resource, member) {
+  /* eslint-disable-next-line */
   return resource.hasOwnProperty('links') && resource.links.hasOwnProperty(member)
 }
 
@@ -31,6 +34,7 @@ export function getLink (resource, member, default_) {
 }
 
 export function hasRelationship (resource, rel) {
+  /* eslint-disable-next-line */
   return resource.hasOwnProperty('relationships') && resource.relationships.hasOwnProperty(rel)
 }
 
@@ -44,6 +48,7 @@ export function getRelationship (resource, rel) {
 
 export class Client {
   constructor (options = {}) {
+    /* eslint-disable-next-line */
     if (options.hasOwnProperty('adapter')) {
       this.adapter = options.adapter
     } else {
@@ -57,12 +62,12 @@ export class Client {
     return resolve(this.urlPrefix, path.join(type, id, '/'))
   }
 
-  request ({method = 'GET', url, data, headers = {}}) {
+  request ({ method = 'GET', url, data, headers = {} }) {
     const settings = {
       method,
       url,
       headers: Object.assign(headers, {
-        'accept': 'application/vnd.api+json',
+        accept: 'application/vnd.api+json',
         'content-type': 'application/vnd.api+json'
       })
     }
@@ -75,7 +80,7 @@ export class Client {
   }
 
   fetchRelatedResource (resource, rel, params = {}) {
-    const {query} = params
+    const { query } = params
 
     const relatedResource = getRelationship(resource, rel)
     const method = 'GET'
@@ -84,12 +89,12 @@ export class Client {
       query
     })
 
-    return this.request({method, url})
+    return this.request({ method, url })
   }
 
   fetchResource (resource, params = {}) {
-    const {query} = params
-    const {type, id} = resource
+    const { query } = params
+    const { type, id } = resource
 
     const method = 'GET'
     const url = format({
@@ -97,11 +102,11 @@ export class Client {
       query
     })
 
-    return this.request({method, url})
+    return this.request({ method, url })
   }
 
   findResources (type, params = {}) {
-    const {query} = params
+    const { query } = params
 
     const method = 'GET'
     const url = format({
@@ -109,34 +114,34 @@ export class Client {
       query
     })
 
-    return this.request({method, url})
+    return this.request({ method, url })
   }
 
   updateResource (resource, params = {}) {
-    const {query} = params
-    const {type, id} = resource
+    const { query } = params
+    const { type, id } = resource
 
     const method = 'PATCH'
     const url = format({
       pathname: getLink(resource, 'self', this.buildLinkFor(type, id)),
       query
     })
-    const data = {data: resource}
+    const data = { data: resource }
 
-    return this.request({method, url, data})
+    return this.request({ method, url, data })
   }
 
   createResource (resource, params = {}) {
-    const {query} = params
-    const {type} = resource
+    const { query } = params
+    const { type } = resource
 
     const method = 'POST'
     const url = format({
       pathname: this.buildLinkFor(type),
       query
     })
-    const data = {data: resource}
+    const data = { data: resource }
 
-    return this.request({method, url, data})
+    return this.request({ method, url, data })
   }
 }

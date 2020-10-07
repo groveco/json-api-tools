@@ -15,22 +15,23 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "babel": "^6.23.0",
-    "babel-cli": "^6.26.0",
-    "babel-jest": "^19.0.0",
-    "babel-preset-es2015": "^6.22.0",
-    "eslint": "^3.19.0",
-    "eslint-config-standard": "^7.0.1",
-    "eslint-plugin-jest": "^19.0.1",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-standard": "^3.0.1",
-    "jest": "^19.0.2",
-    "jest-junit": "^1.3.0"
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "babel-jest": "^26.0.1",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.1",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.9.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "jest": "^26.0.1",
+    "jest-junit": "^10.0.0"
   },
   "jest": {
     "collectCoverage": true,
-    "coverageDirectory": "./coverage",
-    "testResultsProcessor": "jest-junit"
+    "coverageDirectory": "./coverage"
   },
   "browserify": {
     "transform": [
