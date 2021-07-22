@@ -11,7 +11,7 @@ jobs:
     steps:
       - checkout
       - save_cache:
-          key: v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+          key: v4-repo-{{ .Environment.CIRCLE_SHA1 }}
           paths:
             - ~/repo
 
@@ -20,38 +20,38 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - v4-repo-{{ .Environment.CIRCLE_SHA1 }}
 
       - restore_cache:
           keys:
-            - v3-yarn-cache
+            - v4-yarn-cache
 
       - restore_cache:
           keys:
-            - v3-npm-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+            - v4-npm-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
 
       - run: yarn install
 
       - save_cache:
           paths:
             - ~/.cache/yarn/v1
-          key: v3-yarn-cache
+          key: v4-yarn-cache
 
       - save_cache:
           paths:
             - node_modules
-          key: v3-npm-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+          key: v4-npm-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
 
   lint:
     <<: *defaults
     steps:
       - restore_cache:
           keys:
-            - v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - v4-repo-{{ .Environment.CIRCLE_SHA1 }}
 
       - restore_cache:
           keys:
-            - v3-npm-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+            - v4-npm-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
 
       - run: yarn lint
 
@@ -60,11 +60,11 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - v4-repo-{{ .Environment.CIRCLE_SHA1 }}
 
       - restore_cache:
           keys:
-            - v3-npm-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+            - v4-npm-dependencies-{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
 
       - run: yarn test
 
@@ -73,14 +73,14 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - v4-repo-{{ .Environment.CIRCLE_SHA1 }}
 
       - run:
           name: Install production dependencies
           command: yarn install --production
 
       - save_cache:
-          key: v3-npm-dependencies-prod{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+          key: v4-npm-dependencies-prod{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
           paths:
             - temp
 
@@ -89,11 +89,11 @@ jobs:
     steps:
       - restore_cache:
           keys:
-            - v3-repo-{{ .Environment.CIRCLE_SHA1 }}
+            - v4-repo-{{ .Environment.CIRCLE_SHA1 }}
 
       - restore_cache:
           keys:
-            - key: v3-npm-dependencies-prod{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
+            - key: v4-npm-dependencies-prod{{ checksum "package.json" }}-{{ checksum "yarn.lock" }}-{{ checksum ".circleci/config.yml" }}
 
       - run:
           name: Authenticating NPM
