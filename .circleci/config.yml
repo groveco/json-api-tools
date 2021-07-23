@@ -34,7 +34,7 @@ jobs:
 
       - save_cache:
           paths:
-            - ~/.cache/yarn/v1
+            - ~/.cache/yarn/v4
           key: v4-yarn-cache
 
       - save_cache:
